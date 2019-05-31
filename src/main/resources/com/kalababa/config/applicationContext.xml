@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+
+		dependency Injection of dataSource
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+
+				hibernate mapping to database automatically
+				when we use create-drop instead of update the table is created automatically 
+					when the server runs after that it will drop when server stops
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+
+				whether the query wants to show the data in console
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+
+			</props>
+		</property>
+
+		packages to scan for Entity Classes annotated Classes package
+		<property name="annotatedClasses">
+			<list>
+				<value>com.kalababa.model.Product</value>
+				<value>com.kalababa.model.Authorities</value>
+				<value>com.kalababa.model.BillingAddress</value>
+				<value>com.kalababa.model.Cart</value>
+				<value>com.kalababa.model.CartItem</value>
+				<value>com.kalababa.model.Customer</value>
+				<value>com.kalababa.model.CustomerOrder</value>
+				<value>com.kalababa.model.ShippingAddress</value>
+				<value>com.kalababa.model.User</value>
+				<value>com.kalababa.model.Queries</value>
+			</list>
+		</property>
+
+</bean> -->
+
+	<webflow-config:flow-executor
+		id="flowExecutor" flow-registry="flowRegistry">
+	</webflow-config:flow-executor>
+
+	<webflow-config:flow-registry
+		id="flowRegistry" base-path="/WEB-INF/flow">
+		<webflow-config:flow-location
+			path="/checkout/checkout-flow.xml" id="checkout"></webflow-config:flow-location>
+	</webflow-config:flow-registry>
+	<bean id="flowHandleMapping"
+		class="org.springframework.webflow.mvc.servlet.FlowHandlerMapping">
+		<property name="flowRegistry" ref="flowRegistry"></property>
+	</bean>
+	<bean id="flowHandlerAdapter"
+		class="org.springframework.webflow.mvc.servlet.FlowHandlerAdapter">
+		<property name="flowExecutor" ref="flowExecutor"></property>
+	</bean>
+
+</beans>
