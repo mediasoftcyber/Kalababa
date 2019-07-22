@@ -39,11 +39,11 @@
 	padding-right: 23px;
 }
 .navbar{
-	min-height: 49px;
+	min-height: auto;
 	margin-bottom: -4px;
 }
 .navbar-inverse{
-	background-color:#211935;
+	background-color:#00007b;
 	border-color:#211935;
 }
 

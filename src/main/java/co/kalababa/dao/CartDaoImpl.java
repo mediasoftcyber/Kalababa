@@ -53,7 +53,7 @@ public class CartDaoImpl implements CartDao {
 	public void update(Cart cart) {
 
 		Integer cartId = cart.getCartId();
-		double grandTotal = customerOrderService.getCustomerOrderGrandTotal(cartId.toString());
+		double grandTotal = customerOrderService.getCustomerOrderGrandTotal(cartId);
 		cart.setTotalPrice(grandTotal);
 
 		Session session = sessionFactory.openSession();

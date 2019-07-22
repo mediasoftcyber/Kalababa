@@ -12,18 +12,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kalababa.model.Authorities;
 import com.kalababa.model.Cart;
 import com.kalababa.model.Customer;
+import com.kalababa.model.User;
 import com.kalababa.repository.AuthoritiesRepository;
 import com.kalababa.repository.CustomerRepository;
-
-import co.kalababa.dao.CustomerDao;
+import com.kalababa.repository.UserRepository;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-	//@Autowired
-	private CustomerDao customerDao;
-	
 	@Autowired
 	private CustomerRepository custRepo;
+	
+	@Autowired
+	private UserRepository usersRepo;
 	
 	@Autowired
 	private AuthoritiesRepository authRepo;
@@ -51,11 +51,13 @@ public class CustomerServiceImpl implements CustomerService {
 
 	public List<Customer> getAllCustomers() {
 
-		return customerDao.getAllCustomers();
+		return custRepo.findAll();
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Customer getCustomerByemailId(String emailId) {
-		return customerDao.getCustomerByemailId(emailId);
+		User user = usersRepo.findByEmailId(emailId).get();
+		return custRepo.findById(user.getUserId()).get();
 	}
 
 }

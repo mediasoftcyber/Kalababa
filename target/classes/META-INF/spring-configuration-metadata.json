@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "myw",
+      "type": "com.kalababa.properties.AppProperties",
+      "sourceType": "com.kalababa.properties.AppProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "myw.properties",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "com.kalababa.properties.AppProperties"
+    }
+  ],
+  "hints": []
+}

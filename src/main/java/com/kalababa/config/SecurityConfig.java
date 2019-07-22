@@ -24,9 +24,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		auth.jdbcAuthentication().passwordEncoder(encoder).dataSource(ds)
+		auth
+		.jdbcAuthentication().passwordEncoder(encoder).dataSource(ds)
 		.usersByUsernameQuery(USERS_BY_UNAME)
-		.authoritiesByUsernameQuery(ROLES_BY_UNAME);
+		.authoritiesByUsernameQuery(ROLES_BY_UNAME)
+		.and()
+		.inMemoryAuthentication()
+		.withUser("admin@redojet.com")
+		.password("{noop}admin")
+		.authorities("ROLE_ADMIN");
 	}
 	
 	@Override
@@ -38,6 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		  .access("permitAll")
 		 .antMatchers("/cart/**")
 		  .access("permitAll")
+		 .antMatchers("/add*/**")
+		  .access("hasRole('ROLE_ADMIN')")
 		 .antMatchers("/get*/**")
 		  .access("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 		 .antMatchers("/admin*/**")

@@ -4,26 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kalababa.model.Cart;
-
-import co.kalababa.dao.CartDao;
+import com.kalababa.repository.CartRepository;
 
 @Service
 public class CartServiceImpl implements CartService {
 
-	//@Autowired
-	private CartDao cartDao;
+	@Autowired
+	private CartRepository cartRepo;
 
-	public CartDao getCartDao() {
-		return cartDao;
-	}
+	public Cart getCartByCartId(Integer CartId) {
 
-	public void setCartDao(CartDao cartDao) {
-		this.cartDao = cartDao;
-	}
-
-	public Cart getCartByCartId(String CartId) {
-
-		return cartDao.getCartByCartId(CartId);
+		return cartRepo.findById(CartId).get();
 	}
 
 }

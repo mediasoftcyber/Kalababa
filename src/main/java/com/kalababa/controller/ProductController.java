@@ -1,7 +1,6 @@
 
 package com.kalababa.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,9 +9,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,16 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kalababa.model.Product;
-import com.kalababa.model.ProductModel;
 import com.kalababa.service.ProductService;
 
-@Controller
+//@Controller
 public class ProductController {
 
 	@Autowired
@@ -77,13 +70,13 @@ public class ProductController {
 	// this is used for getting the product by productId
 
 	@RequestMapping("getProductById/{productId}")
-	public ModelAndView getProductById(@PathVariable(value = "productId") String productId) {
+	public ModelAndView getProductById(@PathVariable(value = "productId") Integer productId) {
 		Product product = productService.getProductById(productId);
 		return new ModelAndView("productPage", "productObj", product);
 	}
 
 	@RequestMapping("/admin/delete/{productId}")
-	public String deleteProduct(@PathVariable(value = "productId") String productId) {
+	public String deleteProduct(@PathVariable(value = "productId") Integer productId) {
 
 		// Here the Path class is used to refer the path of the file
 
@@ -125,7 +118,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/admin/product/editProduct/{productId}")
-	public ModelAndView getEditForm(@PathVariable(value = "productId") String productId) {
+	public ModelAndView getEditForm(@PathVariable(value = "productId") Integer productId) {
 		Product product = productService.getProductById(productId);
 		return new ModelAndView("editProduct", "editProductObj", product);
 	}

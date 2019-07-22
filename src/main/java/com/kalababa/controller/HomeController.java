@@ -1,5 +1,7 @@
 package com.kalababa.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,29 +11,34 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kalababa.model.Queries;
+import com.kalababa.product.model.CategoryMaster;
+import com.kalababa.product.model.LaptopMaster;
+import com.kalababa.product.service.ProductService;
 import com.kalababa.service.QueriesService;
 
 
 
 @Controller
 public class HomeController {
-
-	public HomeController() {
-		System.out.println("HomeController object created");
-	}
+	
+	@Autowired
+	private ProductService prodService;
 	
 	@RequestMapping({ "/index", "/index1" })
-	public String sayIndex() {
+	public String sayIndex(Model model) {
+		List<CategoryMaster> categoryList = prodService.findAllCategories();
+		model.addAttribute("categoryList", categoryList);
+		List<LaptopMaster> listLaptop = prodService.findAllLaptops();
+		model.addAttribute("laptopList", listLaptop);
 		return "index1";
 	}
 
 	@RequestMapping("/hello")
 	public ModelAndView sayHello() {
-		return new ModelAndView("hello", "hello", "Hello Mr.Ismail");
+		return new ModelAndView("hello", "hello", "Hello Mr.Prabhakar");
 	}
 
 	@RequestMapping("/login")

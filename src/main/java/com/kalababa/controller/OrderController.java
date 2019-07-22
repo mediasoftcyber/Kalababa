@@ -21,7 +21,7 @@ public class OrderController {
 	private CustomerOrderService customerOrderService;
 
 	@RequestMapping("/order/{cartId}")
-	public String createOrder(@PathVariable("cartId") String cartId) {
+	public String createOrder(@PathVariable("cartId") Integer cartId) {
 
 		CustomerOrder customerOrder = new CustomerOrder();
 

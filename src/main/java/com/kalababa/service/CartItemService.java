@@ -6,6 +6,6 @@ import com.kalababa.model.CartItem;
 public interface CartItemService {
 
 	void addCartItem(CartItem cartItem);
-	void removeCartItem(String CartItemId);
+	void removeCartItem(Integer CartItemId);
 	void removeAllCartItems(Cart cart);
 }

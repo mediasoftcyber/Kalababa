@@ -23,22 +23,6 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 
-	public CustomerService getCustomerService() {
-		return customerService;
-	}
-
-	public void setCustomerService(CustomerService customerService) {
-		this.customerService = customerService;
-	}
-
-	public CartService getCartService() {
-		return cartService;
-	}
-
-	public void setCartService(CartService cartService) {
-		this.cartService = cartService;
-	}
-	
 	@RequestMapping("cart/getCartById")
 	public String getCartId(Model model){
 		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -49,7 +33,7 @@ public class CartController {
 	}
 	
 	@RequestMapping("/cart/getCart/{cartId}")
-	public @ResponseBody Cart getCartItems(@PathVariable(value="cartId")String cartId){
+	public @ResponseBody Cart getCartItems(@PathVariable(value="cartId")Integer cartId){
 		return cartService.getCartByCartId(cartId);
 	}
 	

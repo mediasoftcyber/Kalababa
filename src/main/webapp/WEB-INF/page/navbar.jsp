@@ -7,33 +7,30 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="icon" type="image/x-icon" href="<c:url value="/resource/images/favicon1.png"/>" />
+<link rel="icon" type="image/x-icon" href="<c:url value="/resource/images/favicon.png"/>" />
 <link rel="stylesheet"
 	href="<c:url value="/resource/bootstrap/css/bootstrap.min.css"/>">
 <script src="<c:url value="/resource/js/jquery.js"/>"></script>
 <script src="<c:url value="/resource/bootstrap/js/bootstrap.min.js"/>"></script>
-<link rel="stylesheet" type="text/css"
-	href="<c:url value="/resource/css/overall.css"/>">
-
+<link rel="stylesheet" type="text/css"	href="<c:url value="/resource/css/overall.css"/>">
 </head>
 <body>
 
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 
-		<div class="nav navbar">
-			<img class="navbar-brand"
-				src="<c:url value="/resource/images/shopieasy-logo.png"/>"
+		<!-- <div class="nav navbar"> -->
+			<a class="navbar-brand" href="<c:url value="/index1" />"><img class="navbar-brand"
+				src="<c:url value="/resource/images/redojetLogo4.png"/>"
 				href="<c:url value="/index"/>" width="200px" height="100px"
-				alt="logo-image"></img>
-		</div>
+				alt="logo-image"></img></a>
+		<!-- </div> -->
 
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<c:url value="/index1" />">ShopIeasy</a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
@@ -48,13 +45,16 @@
 				
 				<!-- 			Only admin can view this link -->
 				<security:authorize access="hasRole('ROLE_ADMIN')">
-					<li><a href=' <c:url value="/admin/product/addProduct" />'>Add
+					<li><a href=' <c:url value="/addCategory" />'>Add
 							Product</a></li>
 				</security:authorize>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
-
+				<c:if test="${empty pageContext.request.userPrincipal.name}">
+					<li><a href=" <c:url value="/login" />">Login</a></li>
+					<li><a href=" <c:url value="/customer/registration" />">SignUp</a></li>
+				</c:if>
 				<c:if test="${!empty pageContext.request.userPrincipal.name}">
 					<li><a href='<c:url value="/index1" />'>
 					<span class="glyphicon glyphicon-shopping-user"></span>Welcome..${pageContext.request.userPrincipal.name}</a></li>
@@ -68,18 +68,6 @@
 				</c:if>
 			</ul>
 
-
-			<ul class="nav navbar-nav navbar-right">
-
-				<c:if test="${pageContext.request.userPrincipal.name==null}">
-					<li><a href='<c:url value="/login" />'>
-					<span class="glyphicon glyphicon-shopping-cart"></span>My Cart</a></li>
-					<li><a href="<c:url value='/customer/registration' />"><span
-							class="glyphicon glyphicon-log-user"></span> SignUp</a></li>
-					<li><a href="<c:url value="/login" />"><span
-							class="glyphicon glyphicon-log-in"></span> Login</a></li>
-				</c:if>
-			</ul>
 		</div>
 	</div>
 	</nav>

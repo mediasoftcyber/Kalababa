@@ -2,8 +2,6 @@ package com.kalababa.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,39 +13,30 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kalababa.model.Product;
 import com.kalababa.repository.ProductRepository;
 
-import co.kalababa.dao.ProductDao;
-
-@Transactional(propagation = Propagation.REQUIRED)
-@Service(value = "productService")
+//@Transactional(propagation = Propagation.REQUIRED)
+//@Service(value = "productService")
 public class ProductServiceImpl implements ProductService {
-
-	// @Autowired
-	private ProductDao productDao;
 
 	@Autowired
 	private ProductRepository prodRepo;
 
-	public ProductDao getProductDao() {
-		return productDao;
-	}
-
-	public void setProductDao(ProductDao productDao) {
-		this.productDao = productDao;
-	}
 
 	@Transactional
 	public List<Product> getAllProducts() {
 		return prodRepo.findAll();
 	}
 
-	public Product getProductById(String productId) {
-		return productDao.getProductById(productId);
+	@Transactional
+	public Product getProductById(Integer productId) {
+		return prodRepo.findById(productId).get();
 	}
 
-	public void deleteProduct(String productId) {
-		productDao.deleteProduct(productId);
+	@Transactional
+	public void deleteProduct(Integer productId) {
+		prodRepo.deleteById(productId);
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void addProduct(Product product) {
 		try {
 			product = prodRepo.save(product);
@@ -69,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	public void editProduct(Product product) {
-		productDao.editProduct(product);
+		prodRepo.save(product);
 	}
 
 }

@@ -67,7 +67,7 @@
 
 							<!-- 						view only for user --> 
 							<security:authorize	access="hasRole('ROLE_USER')">
-								<a href="#" ng-click="addToCart(${prod.productId})"
+								<a href="cart/add?productId=${prod.productId}" ng-click="addToCart(${prod.productId})"
 									class="btn btn-primary" style="margin-left: 5px"> <span
 									class="glyphicon glyphicon-shopping-cart"></span></a>
 							</security:authorize> <!-- 						view only to the admin --> 

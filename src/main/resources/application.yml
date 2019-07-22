@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///kalababa
-    username: root
-    password: root
+    url: jdbc:mysql://awsprastar.crczki6qlxoz.us-east-2.rds.amazonaws.com:3306/kalababa
+    username: prastar
+    password: prastar420
   jpa:
     properties:
       hibernate:
@@ -22,11 +22,75 @@ spring:
     view:
       prefix: /WEB-INF/page/
       suffix: .jsp
-      
+#sending mail
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: JavaProject.02.7am@gmail.com
+    password: JavaProject@123
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true   
 logging:
-  file: E://mylog.log
+  file: usr/java/log_of_kalababa/mylog.log
   level:
     root: info
     com.kalababa: debug
 
+#custom messages
+myw:
+  properties:
+    #AppAccounts Details
+    message: Welcome to MYW - DEV
+    regSuccess: Registration Successfull
+    regFail: Registration Failed
+    regEmailFileName: Registration_Email_Template.txt
+    regEmailSubject: MYW Registration Completed
+    accActivateEmailFileName: Account_Active_Email_Template.txt
+    accActivateEmailSubject: Your MYW Account Activated
+    accDeActiveEmailFileName: Account_De_Active_Email_Template.txt
+    accDeActiveEmailSubject: Your MYW Account De-Activated
+    accActivateSuccMsg: Account Activated Successfully
+    accActivateErrMsg: Account Activation Failed
+    accDeActivateSuccMsg: Account De-Activated Successfully
+    accDeActivateErrMsg: Account De-Activation Failed
+    editAccSuccessMsg: Account Details Updated Successfully
+    editAccFailureMsg: Account Updation Failed
+    updateAccEmailFileName: Account_Updation_Template.txt
+    updateAccEmailSubject: Your MYW Account Updated Details
+    
+    #loggin mail message
+    pwdEmailSentFailureMsg: Email not sent successfully, Try again after some time
+    invalidCredentials: Invalid Credentials
+    #Forgot Password Details
+    emailNotRegistered: This Email-ID not Registered
+    forgotPasswordEmailTemplateFileName: Forgot_Password_Email_Template.txt
+    forgotPasswordEmailSubject: MYW Account recovered
+    pwdEmailSentSuccessMsg: Password sent to your email
+    accDeActivatedMsg: Your Account is not Active, For Any Query Contact MYW Admin
+    
+    #Product Module messages
+    #Product Addition message
+    productAdditionFailure: Product Addtion Failed, Try Again!!
+    productAdditionSuccess: Product Addtion Succeded!!
+    
+    unAuthorisedApplicant: "Un-Authorised Applicant to Apply for Plan"
+    applicantRegSuccess: Applicant Registered Successfully with AppId 
+    applicantAlreadyReg: Applicant Already Registered with AppId 
+    updateAppSuccessMsg: Application Updated Successfully
+    updateAppErrMsg: Application Updation Failed
+    internalProblem: Internal Problem Contact Admin
+    #Dc Module Messages
+    appIdSearchFailed: Worng Application Number
+    caseCreationFailed: Case Creation is Failed!!
+    casePlanSelectionFailed: Plan Selection Failed!!
+    caseIncomeSaveFailed: Income Details Not Saved!!
+    caseEducationSaveFailed: Education Details Not Saved!!
+    childDetailsSaveSuccess: Child Details Saved
+    childDetailsSaveFailed: Child Details Not Saved!!
+    childDetailsRetrieveFailed: Child Details Not Found!!
+    childDetailsDeleteSuccess: Child Deleted Successfully
     

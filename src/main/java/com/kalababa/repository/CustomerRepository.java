@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kalababa.model.Customer;
 
-@Repository("custRepo")
+@Repository
 public interface CustomerRepository extends JpaRepository<Customer, Serializable> {
 
+	
 }

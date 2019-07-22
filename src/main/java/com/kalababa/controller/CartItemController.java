@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.kalababa.model.Cart;
@@ -23,54 +23,21 @@ import com.kalababa.service.ProductService;
 @Controller
 public class CartItemController {
 
-	@Autowired
+	//@Autowired
 	private CartService cartService;
 
-	@Autowired
+	//@Autowired
 	private CartItemService cartItemService;
 
-	@Autowired
+	//@Autowired
 	private CustomerService customerService;
 
-	@Autowired
+	//@Autowired
 	private ProductService productService;
 
-	
-	public CustomerService getCustomerService() {
-		return customerService;
-	}
-
-	public void setCustomerService(CustomerService customerService) {
-		this.customerService = customerService;
-	}
-
-	public ProductService getProductService() {
-		return productService;
-	}
-
-	public void setProductService(ProductService productService) {
-		this.productService = productService;
-	}
-
-	public CartService getCartService() {
-		return cartService;
-	}
-
-	public void setCartService(CartService cartService) {
-		this.cartService = cartService;
-	}
-
-	public CartItemService getCartItemService() {
-		return cartItemService;
-	}
-
-	public void setCartItemService(CartItemService cartItemService) {
-		this.cartItemService = cartItemService;
-	}
-
-	@RequestMapping("/cart/add/{productId}")
+	@RequestMapping("/cart/add")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void addCartItem(@PathVariable(value = "productId") String productId) {
+	public void addCartItem(@RequestParam(value = "productId") Integer productId) {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String emailId = user.getUsername();
 		Customer customer = customerService.getCustomerByemailId(emailId);
@@ -96,15 +63,15 @@ public class CartItemController {
 		cartItemService.addCartItem(cartItem);
 	}
 
-	@RequestMapping("/cart/removeCartItem/{cartItemId}")
+	@RequestMapping("/cart/removeCartItem")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void removeCartItem(@PathVariable(value = "cartItemId") String cartItemId) {
+	public void removeCartItem(@RequestParam(value = "cartItemId") Integer cartItemId) {
 		cartItemService.removeCartItem(cartItemId);
 	}
 
-	@RequestMapping("/cart/removeAllItems/{cartId}")
+	@RequestMapping("/cart/removeAllItems")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void removeAllCartItems(@PathVariable(value = "cartId") String cartId) {
+	public void removeAllCartItems(@RequestParam(value = "cartId") Integer cartId) {
 		Cart cart = cartService.getCartByCartId(cartId);
 		cartItemService.removeAllCartItems(cart);
 	}
