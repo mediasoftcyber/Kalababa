@@ -132,7 +132,7 @@
 						<div class="col-md-3">
 							<div class="header-logo">
 								<a href="/index" class="logo">
-									<img src="<c:url value="/resource/images/redojetLogo0.png"/>" style="max-width: 200px" alt="Kalababa">
+									<img src="<c:url value="/resource/images/redojetLogo0.png"/>" style="max-width: 200px" alt="Redojet">
 								</a>
 							</div>
 						</div>
