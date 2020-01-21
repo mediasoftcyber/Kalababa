@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 @Entity
 @Table(name = "CAMERA_MASTER")
 public class CameraMasterEntity implements Serializable {
@@ -27,85 +26,85 @@ public class CameraMasterEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PROD_ID")
 	private Integer prodId;
-	
+
 	@Column(name = "CUST_ID")
 	private String custId;
-	
+
 	@Column(name = "HSN_CODE")
 	private Integer hsnCode;
-	
+
 	@Column(name = "TITLE")
 	private String title;
-	
+
 	@Column(name = "BRAND")
 	private String brand;
-	
+
 	@Column(name = "OPTICAL_SENSOR_RESOLUTION")
 	private String opticalSensorResolution;
-	
+
 	@Column(name = "ITEM_WEIGHT")
 	private String itemWeight;
-	
+
 	@Column(name = "PRODUCT_DIMENSIONS")
 	private String productDimensions;
-	
+
 	@Column(name = "ITEM_MODEL_NUMBER")
 	private String itemModelNumber;
-	
+
 	@Column(name = "OPTICAL_ZOOM")
 	private String opticalZoom;
-	
+
 	@Column(name = "VIDEO_CAPTURE_RESOLUTION")
 	private String videoCaptureResolution;
-	
+
 	@Column(name = "CONNECTOR_TYPE")
 	private String connectorType;
-	
+
 	@Column(name = "MIN_FOCAL_LENGTH")
 	private String minFocalLength;
-	
+
 	@Column(name = "ADDITIONAL_FEATURES")
 	private String additionalFeatures;
-	
+
 	@Column(name = "includedComponents")
 	private String includedComponents;
-	
+
 	@Column(name = "MRP")
 	private Double mrp;
-	
+
 	@Column(name = "PRICE")
 	private Double price;
-	
+
 	@Column(name = "SELLING_PRICE")
 	private Double sellingPrice;
-	
+
 	@Column(name = "PURCHAGING_PRICE")
 	private Double purchagingPrice;
-	
+
 	@Column(name = "QUANTITY")
 	private Integer quantity;
-	
-	@Column(name = "ACTIVE")	
+
+	@Column(name = "ACTIVE")
 	private Boolean active;
-	
+
 	@Column(name = "CATEGORY_ID")
 	private Integer categoryId;
-	
-	@Column(name="WARRANTY_PERIOD")
+
+	@Column(name = "WARRANTY_PERIOD")
 	private Integer warrantyPeriod;
-	
+
 	@Column(name = "WARRANTY_STATUS")
 	private String warrantyStatus;
-	
+
 	@Column(name = "WARRANTY_START_DATE")
 	private Date warrantyStartDate;
-	
+
 	@Column(name = "SELLING_DATE")
 	private Date sellingDate;
-	
+
 	@Column(name = "SOLD")
 	private Boolean sold;
-	
+
 	@CreationTimestamp
 	@Column(name = "CREATE_DT")
 	private Date createDate;
@@ -113,8 +112,7 @@ public class CameraMasterEntity implements Serializable {
 	@UpdateTimestamp
 	@Column(name = "UPDATE_DT")
 	private Date updateDate;
-	
-	
+
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 

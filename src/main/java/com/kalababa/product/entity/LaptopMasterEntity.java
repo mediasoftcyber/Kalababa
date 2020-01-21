@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 @Entity
 @Table(name = "LAPTOP_MASTER")
 public class LaptopMasterEntity implements Serializable {
@@ -27,169 +26,169 @@ public class LaptopMasterEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PROD_ID")
 	private Integer prodId;
-	
+
 	@Column(name = "CUST_ID")
 	private String custId;
-	
+
 	@Column(name = "HSN_CODE")
 	private Integer hsnCode;
-	
+
 	@Column(name = "TITLE")
 	private String title;
-	
+
 	@Column(name = "BRAND")
 	private String brand;
-	
+
 	@Column(name = "SERIES")
 	private String series;
-	
+
 	@Column(name = "COLOUR")
 	private String colour;
-	
+
 	@Column(name = "ITEM_HEIGHT")
 	private String itemHeight;
-	
+
 	@Column(name = "ITEM_WIDTH")
 	private String itemWidth;
-	
+
 	@Column(name = "SCREEN_SIZE")
 	private String screenSize;
-	
+
 	@Column(name = "MAXIMUM_DISPLAY_RESOLUTION")
 	private String maximumDisplayResolution;
-	
+
 	@Column(name = "ITEM_WEIGHT")
 	private String itemWeight;
-	
+
 	@Column(name = "PRODUCT_DIMENSIONS")
 	private String productDimensions;
-	
+
 	@Column(name = "BATTERIES")
 	private String batteries;
-	
+
 	@Column(name = "ITEM_MODEL_NUMBER")
 	private String itemModelNumber;
-	
+
 	@Column(name = "PROCESSOR_BRAND")
 	private String processorBrand;
-	
+
 	@Column(name = "PROCESSOR_TYPE")
 	private String processorType;
-	
+
 	@Column(name = "RAM_SIZE")
 	private String ramSize;
-	
+
 	@Column(name = "MEMORY_TECHNOLOGY")
 	private String memoryTechnology;
-	
+
 	@Column(name = "MAXIMUM_MEMORY_SUPPORTED")
 	private String maximumMemorySupported;
-	
+
 	@Column(name = "HARD_DRIVE_SIZE")
 	private String hardDriveSize;
-	
+
 	@Column(name = "HARDDISK_TECHNOLOGY")
 	private String hardDiskTechnology;
-	
+
 	@Column(name = "AUDIO_DETAILS")
 	private String audioDetails;
-	
+
 	@Column(name = "SPEAKER_DESCRIPTION")
 	private String speakerDescription;
-	
+
 	@Column(name = "GRAPHICS_COPROCESSOR")
 	private String graphicsCoprocessor;
-	
+
 	@Column(name = "CONNECTIVITY_TYPE")
 	private String connectivityType;
-	
+
 	@Column(name = "WIRELESS_TYPE")
 	private String wirelessType;
-	
+
 	@Column(name = "NUMBER_OF_USB2_0_PORTS")
 	private String numberOfUSB2_0Ports;
-	
+
 	@Column(name = "NUMBER_OF_USB3_0_PORTS")
 	private String numberOfUSB3_0Ports;
-	
+
 	@Column(name = "NUMBER_OF_HDMI_PORTS")
 	private String numberOfHDMIPorts;
-	
+
 	@Column(name = "NUMBER_OF_AUDIOOUT_PORTS")
 	private String numberOfAudioOutPorts;
-	
+
 	@Column(name = "NUMBER_OF_ETHERNET_PORTS")
 	private String numberOfEthernetPorts;
-	
+
 	@Column(name = "NUMBER_OF_MICROPHONE_PORTS")
 	private String numberOfMicrophonePorts;
-	
+
 	@Column(name = "OPTICAL_DRIVE_TYPE")
 	private String opticalDriveType;
-	
+
 	@Column(name = "OPERATING_SYSTEM")
 	private String operatingSystem;
-	
-	@Column(name="HARDWARE_PLATFORM")
+
+	@Column(name = "HARDWARE_PLATFORM")
 	private String hardwarePlatform;
-	
+
 	@Column(name = "AVERAGE_BATTERY_LIFE")
 	private String averageBatteryLife;
-	
+
 	@Column(name = "LITHIUM_BATTERY_ENERGY_CONTENT")
 	private String lithiumBatteryEnergyContent;
-	
+
 	@Column(name = "NUMBER_OF_LITHIUM_ION_CELLS")
 	private String numberOfLithiumIonCells;
-	
+
 	@Column(name = "includedComponents")
 	private String includedComponents;
-	
+
 	@Column(name = "TOUCH_SCREEN")
 	private Boolean touchScreen;
-	
+
 	@Column(name = "MRP")
 	private Double mrp;
-	
+
 	@Column(name = "PRICE")
 	private Double price;
-	
+
 	@Column(name = "SELLING_PRICE")
 	private Double sellingPrice;
-	
+
 	@Column(name = "PURCHAGING_PRICE")
 	private Double purchagingPrice;
-	
+
 	@Column(name = "QUANTITY")
 	private Integer quantity;
-	
-	@Column(name = "ACTIVE")	
+
+	@Column(name = "ACTIVE")
 	private Boolean active;
-	
+
 	@Column(name = "CATEGORY_ID")
 	private Integer categoryId;
-	
-	@Column(name="REPL_WARRANTY_PERIOD")
+
+	@Column(name = "REPL_WARRANTY_PERIOD")
 	private Integer replWarrantyPeriod;
-	
-	@Column(name="SERV_WARRANTY_PERIOD")
+
+	@Column(name = "SERV_WARRANTY_PERIOD")
 	private Integer servWarrantyPeriod;
-	
+
 	@Column(name = "REPL_WARRANTY_STATUS")
 	private String replWarrantyStatus;
-	
+
 	@Column(name = "SERV_WARRANTY_STATUS")
 	private String servWarrantyStatus;
-	
+
 	@Column(name = "WARRANTY_START_DATE")
 	private Date warrantyStartDate;
-	
+
 	@Column(name = "SELLING_DATE")
 	private Date sellingDate;
-	
+
 	@Column(name = "SOLD")
 	private Boolean sold;
-	
+
 	@CreationTimestamp
 	@Column(name = "CREATE_DT")
 	private Date createDate;
@@ -197,15 +196,13 @@ public class LaptopMasterEntity implements Serializable {
 	@UpdateTimestamp
 	@Column(name = "UPDATE_DT")
 	private Date updateDate;
-	
-	
+
 	@Column(name = "CREATED_BY")
 	private String createdBy;
 
 	@Column(name = "UPDATED_BY")
 	private String updatedBy;
 
-	
 	public Integer getProdId() {
 		return prodId;
 	}
@@ -213,7 +210,7 @@ public class LaptopMasterEntity implements Serializable {
 	public void setProdId(Integer prodId) {
 		this.prodId = prodId;
 	}
-	
+
 	public String getCustId() {
 		return custId;
 	}
@@ -677,6 +674,5 @@ public class LaptopMasterEntity implements Serializable {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-
 
 }

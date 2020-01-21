@@ -7,11 +7,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Redojet|Home</title>
 <link rel="icon" type="image/x-icon" href="<c:url value="/resource/images/favicon.png"/>" />
+<script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
 </head>
 <body>
- <%@ include file="navbar.jsp"%> 
- <%@ include file="slider.jsp"%>
- <%@ include file="NewFile.jsp"%> 
- <%@ include file="footer.jsp"%> 
+ <%@ include file="navbar1.jsp"%> 
+ <%-- <%@ include file="slider.jsp"%> --%>
+ <%@ include file="productList2.jsp"%> 
+ <%@ include file="footer1.jsp"%> 
 </body>
 </html>

@@ -1,6 +1,5 @@
 package com.kalababa.product.controller;
 
-import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kalababa.constants.AppConstants;
 import com.kalababa.product.entity.CategoryMasterEntity;
@@ -67,24 +66,13 @@ public class ProductController {
 	public String addProd(@ModelAttribute("prodModel") ProductMaster prodModel, Model model, HttpServletRequest req) {
 		logger.debug("ProductController::addProd() started");
 		// call Service layer method
-		int imgId = 0;
-		String path = null;
-		String realPath = null;
 		ServletContext sc = req.getServletContext();
 		Map<String, String> map = appProperties.getProperties();
 		try {
-			prodModel = prodService.addProduct(prodModel);
-			MultipartFile[] files = prodModel.getImages();
-			for (MultipartFile file : files) {
-				path = "WEB-INF/classes/static/resource/images/products/prod_" + prodModel.getProdId() + "_img_"
-						+ (++imgId) + ".jpg";
-				realPath = sc.getRealPath(path);
-				file.transferTo(new File(realPath));
-				logger.info("Product Images transfered Successfully");
-			}
+			prodModel = prodService.addProduct(prodModel, sc);
 			model.addAttribute(AppConstants.SUCCESS, map.get(AppConstants.PRODUCT_ADDITION_SUCCESS));
 		} catch (Exception e) {
-			model.addAttribute(AppConstants.FAILURE, map.get(AppConstants.PRODUCT_ADDITION_FAILURE)+" "+e.toString()+" "+realPath);
+			model.addAttribute(AppConstants.FAILURE, map.get(AppConstants.PRODUCT_ADDITION_FAILURE));
 			logger.error("Error in Adding Product", e);
 		}
 
@@ -136,24 +124,14 @@ public class ProductController {
 			HttpServletRequest req) {
 		logger.debug("ProductController::addLaptop() started");
 		// call Service layer method
-		int imgId = 0;
-		String path = null;
-		String realPath = null;
+		
 		ServletContext sc = req.getServletContext();
 		Map<String, String> map = appProperties.getProperties();
 		try {
-			laptopModel = prodService.addLaptop(laptopModel);
-			MultipartFile[] files = laptopModel.getImages();
-			for (MultipartFile file : files) {
-				path = "WEB-INF/classes/static/resource/images/products/laptop_" + laptopModel.getProdId()
-						+ "_img_" + (++imgId) + ".jpg";
-				realPath = sc.getRealPath(path);
-				file.transferTo(new File(realPath));
-				logger.info("Product Images transfered Successfully");
-			}
-			model.addAttribute(AppConstants.SUCCESS, map.get(AppConstants.PRODUCT_ADDITION_SUCCESS)+" "+realPath);
+			laptopModel = prodService.addLaptop(laptopModel, sc);
+			model.addAttribute(AppConstants.SUCCESS, map.get(AppConstants.PRODUCT_ADDITION_SUCCESS));
 		} catch (Exception e) {
-			model.addAttribute(AppConstants.FAILURE, map.get(AppConstants.PRODUCT_ADDITION_FAILURE)+" "+e.toString()+" "+realPath);
+			model.addAttribute(AppConstants.FAILURE, map.get(AppConstants.PRODUCT_ADDITION_FAILURE));
 			logger.error("Error in Adding Laptop", e);
 		}
 
@@ -197,19 +175,10 @@ public class ProductController {
 	public String addTV(@ModelAttribute("tvModel") TVMaster tvModel, Model model, HttpServletRequest req) {
 		logger.debug("ProductController::addTV() started");
 		// call Service layer method
-		int imgId = 0;
 		ServletContext sc = req.getServletContext();
 		Map<String, String> map = appProperties.getProperties();
 		try {
-			tvModel = prodService.addTV(tvModel);
-			MultipartFile[] files = tvModel.getImages();
-			for (MultipartFile file : files) {
-				String path = "WEB-INF/classes/static/resource/images/products/tv_" + tvModel.getProdId()
-						+ "_img_" + (++imgId) + ".jpg";
-				String realPath = sc.getRealPath(path);
-				file.transferTo(new File(realPath));
-				logger.info("Product Images transfered Successfully");
-			}
+			tvModel = prodService.addTV(tvModel, sc);
 			model.addAttribute(AppConstants.SUCCESS, map.get(AppConstants.PRODUCT_ADDITION_SUCCESS));
 		} catch (Exception e) {
 			model.addAttribute(AppConstants.FAILURE, map.get(AppConstants.PRODUCT_ADDITION_FAILURE));
@@ -257,19 +226,10 @@ public class ProductController {
 			HttpServletRequest req) {
 		logger.debug("ProductController::addCamera() started");
 		// call Service layer method
-				int imgId = 0;
 				ServletContext sc = req.getServletContext();
 				Map<String, String> map = appProperties.getProperties();
 				try {
-					cameraModel = prodService.addCamera(cameraModel);
-					MultipartFile[] files = cameraModel.getImages();
-					for (MultipartFile file : files) {
-						String path = "WEB-INF/classes/static/resource/images/products/cam_" + cameraModel.getProdId()
-								+ "_img_" + (++imgId) + ".jpg";
-						String realPath = sc.getRealPath(path);
-						file.transferTo(new File(realPath));
-						logger.info("Product Images transfered Successfully");
-					}
+					cameraModel = prodService.addCamera(cameraModel, sc);
 					model.addAttribute(AppConstants.SUCCESS, map.get(AppConstants.PRODUCT_ADDITION_SUCCESS));
 				} catch (Exception e) {
 					model.addAttribute(AppConstants.FAILURE, map.get(AppConstants.PRODUCT_ADDITION_FAILURE));
@@ -334,6 +294,68 @@ public class ProductController {
 		logger.info("Category added Successfully");
 		logger.debug("ProductController::addCategory() ended");
 		return "addCategory";
+	}
+	/**
+	 * This method is for viewing individual product's detail
+	 * @param prodId
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(path="/viewProduct")
+	public String viewProduct(@RequestParam(name = "prodId") Integer prodId, @RequestParam(name = "catId") Integer catId, Model model) {
+		logger.debug("ProductController:viewProduct executed");
+		CategoryMaster cat = prodService.findCategoryByCategoryId(catId);
+		logger.info("Category Successfully retrieved for Id:"+catId);
+		if(cat.getCategoryName().toLowerCase().contains("laptop") || cat.getCategoryName().toLowerCase().contains("pc")) {
+			try{
+				LaptopMaster lapModel = prodService.findLaptopByProdId(prodId);
+				logger.info("Laptop Successfully retrieved for Id:"+prodId);
+				model.addAttribute("product", lapModel);
+				List<LaptopMaster> listLaptop = prodService.findAllLaptops();
+				model.addAttribute("laptopList", listLaptop);
+				logger.info("All Laptop Successfully retrieved");
+			}catch(Exception e) {
+				logger.error("Unable to find Product by id="+prodId, e);
+			}
+			return "viewPC";
+		}else if(cat.getCategoryName().toLowerCase().contains("tv") || cat.getCategoryName().toLowerCase().contains("television")) {
+			try{
+				TVMaster tvModel = prodService.findTVByProdId(prodId);
+				model.addAttribute("product", tvModel);
+				logger.info("TV Successfully retrieved for Id:"+prodId);
+				
+				List<TVMaster> listTV = prodService.findAllTV();
+				model.addAttribute("tvList", listTV);
+				logger.info("All TV Successfully retrieved");
+			}catch(Exception e) {
+				logger.error("Unable to find Product by id="+prodId, e);
+			}
+			return "viewTV";
+		}else if(cat.getCategoryName().toLowerCase().contains("cctv")) {
+			try{
+				CameraMaster camModel = prodService.findCamByProdId(prodId);
+				model.addAttribute("product", camModel);
+				logger.info("Camera Successfully retrieved for Id:"+prodId);
+				List<CameraMaster> listCam = prodService.findAllCamera();
+				model.addAttribute("camList", listCam);
+				logger.info("All Camera Successfully retrieved");
+			}catch(Exception e) {
+				logger.error("Unable to find Product by id="+prodId, e);
+			}
+			return "viewCamera";
+		} else {
+			try{
+				ProductMaster prodModel = prodService.findByProdId(prodId);
+				model.addAttribute("product", prodModel);
+				logger.info("Product Successfully retrieved for Id:"+prodId);
+				List<ProductMaster> listProd = prodService.findAllProducts();
+				model.addAttribute("prodList", listProd);
+				logger.info("All Product Successfully retrieved");
+			}catch(Exception e) {
+				logger.error("Unable to find Product by id="+prodId, e);
+			}
+			return "viewProduct";
+		}
 	}
 
 }

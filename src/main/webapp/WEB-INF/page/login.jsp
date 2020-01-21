@@ -10,6 +10,17 @@
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 <script src="js/jquery-3.1.0.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="1075784585903-fbf3nsma4b77j35nr45do690kk0s9ttp.apps.googleusercontent.com">
+<script type="text/javascript">
+	function onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	  console.log('Name: ' + profile.getName());
+	  console.log('Image URL: ' + profile.getImageUrl());
+	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	}
+</script>
 <link rel="stylesheet" type="text/css" href="css/header.css">
 <style type="text/css">
 @media ( min-width : 1200px) .container {
@@ -97,7 +108,7 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="g-signin2" data-onsuccess="onSignIn"></div>
 	</div>
 	<%@ include file="footer.jsp"%>
 

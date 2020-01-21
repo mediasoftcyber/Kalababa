@@ -33,8 +33,7 @@ body, h1, h2, h3, h4, h5 {
 			<h1 class="text-left">Laptop</h1>
 			<div class="row">
 			<c:forEach var="laptop" items="${laptopList}" varStatus="index">
-				<div class="carousel slide row innerbkground" data-ride="carousel"
-					data-type="multi" data-interval="3000" id="productscarousel">
+				<div class="carousel slide row innerbkground" data-ride="carousel" data-type="multi" data-interval="3000" id="productscarousel">
 					
 					<div class="carousel-inner">
 					
@@ -43,7 +42,7 @@ body, h1, h2, h3, h4, h5 {
 								<div class="spe-prods">
 									<div class="mainbox">
 										<h3>${laptop.title }</h3>
-										<img class="rotprod" src="<c:url value="/resource/images/products/laptop_img_${laptop.prodId}.jpg"/>" alt="${laptop.brand}">
+										<img class="rotprod" src="<c:url value="/resource/images/products/laptop_${laptop.prodId}_img_1.jpg"/>" alt="${laptop.brand}">
 									</div>
 									<div class="price-big">
 										<div>

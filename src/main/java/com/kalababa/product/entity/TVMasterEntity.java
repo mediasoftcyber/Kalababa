@@ -147,8 +147,8 @@ public class TVMasterEntity implements Serializable {
 
 	@Column(name = "UPDATED_BY")
 	private String updatedBy;
-
-	public Integer getProdId() {
+	
+		public Integer getProdId() {
 		return prodId;
 	}
 

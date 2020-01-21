@@ -8,20 +8,21 @@ import org.springframework.stereotype.Service;
 import com.kalababa.model.Cart;
 import com.kalababa.model.CartItem;
 import com.kalababa.model.CustomerOrder;
+import com.kalababa.repository.CustomerOrderRepository;
 
 import co.kalababa.dao.CustomerOrderDao;
 
 @Service
 public class CustomerOrderServiceImpl implements CustomerOrderService {
 
-	//@Autowired
-	private CustomerOrderDao customerOrderDao;
+	@Autowired
+	private CustomerOrderRepository customerOrderRepo;
 	
-	//@Autowired
+	@Autowired
 	private CartService cartService;
 	
 	public void addCustomerOrder(CustomerOrder customerOrder) {
-		customerOrderDao.addCustomerOrder(customerOrder);
+		customerOrderRepo.save(customerOrder);
 	}
 
 	public double getCustomerOrderGrandTotal(Integer cartId) {

@@ -1,13 +1,21 @@
 #server port
 server:
   port: 8090
+  servlet:
+    session:
+      timeout: 1532453555
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://awsprastar.crczki6qlxoz.us-east-2.rds.amazonaws.com:3306/kalababa
-    username: prastar
-    password: prastar420
+#    url: jdbc:mysql:///kalababa
+#    url: jdbc:mysql:///kalababa_master
+    url: jdbc:mysql:///redojet_master
+#    username: root
+#    username: kalababa_prastar
+    username: redojet_prastar
+#    password: root
+    password: Prabhakar@420
   jpa:
     properties:
       hibernate:
@@ -22,6 +30,17 @@ spring:
     view:
       prefix: /WEB-INF/page/
       suffix: .jsp
+# Session store type.
+  session: 
+    store-type: jdbc
+# Database schema initialization mode.
+    jdbc:
+      initialize-schema: always
+# Path to the SQL file to use to initialize the database schema.
+      #schema: classpath:org/springframework/session/jdbc/schema-@@platform@@.sql
+# Name of the database table used to store sessions.
+      table-name: SPRING_SESSION
+
 #sending mail
   mail:
     host: smtp.gmail.com
@@ -35,7 +54,7 @@ spring:
           starttls:
             enable: true   
 logging:
-  file: usr/java/log_of_kalababa/mylog.log
+  file: /mylog.log
   level:
     root: info
     com.kalababa: debug

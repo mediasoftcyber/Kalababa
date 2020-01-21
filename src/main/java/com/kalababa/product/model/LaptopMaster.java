@@ -1,11 +1,15 @@
 package com.kalababa.product.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kalababa.product.entity.ProductImageEntity;
 
-public class LaptopMaster {
+
+public class LaptopMaster implements Serializable {
 
 	private Integer prodId;
 	
@@ -55,11 +59,11 @@ public class LaptopMaster {
 	private Double purchagingPrice;
 	private Integer quantity;
 	private Boolean active = true;
-	private Integer categoryId = 1;
+	private Integer categoryId ;
 	private Integer replWarrantyPeriod;
 	private Integer servWarrantyPeriod;
-	private String replWarrantyStatus = "active";
-	private String servWarrantyStatus = "active";
+	private String replWarrantyStatus;
+	private String servWarrantyStatus;
 	private Date warrantyStartDate;
 	private Date sellingDate;
 	private Boolean sold = false;
@@ -68,6 +72,15 @@ public class LaptopMaster {
 	private String createdBy;
 	private String updatedBy;
 	private MultipartFile[] images;
+	private List<ProductImageEntity> prodImgs;
+
+	public List<ProductImageEntity> getProdImgs() {
+		return prodImgs;
+	}
+
+	public void setProdImgs(List<ProductImageEntity> prodImgs) {
+		this.prodImgs = prodImgs;
+	}
 
 	public Integer getProdId() {
 		return prodId;

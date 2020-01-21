@@ -18,10 +18,28 @@
 <script src="<c:url value="/resource/bootstrap/js/bootstrap.min.js"/>"></script>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/resource/css/register.css"/>">
-
+<script type="text/javascript">
+	$(function(){
+		$("#sameAddress").click(function(){
+			if($(this).prop("checked")){
+				$("#billingAddress_address").val($("#shippingAddress_address").val());
+				$("#billingAddress_city").val($("#shippingAddress_city").val());
+				$("#billingAddress_state").val($("#shippingAddress_state").val());
+				$("#billingAddress_country").val($("#shippingAddress_country").val());
+				$("#billingAddress_zipcode").val($("#shippingAddress_zipcode").val());
+			}else{
+				$("#billingAddress_address").val("");
+				$("#billingAddress_city").val("");
+				$("#billingAddress_state").val("");
+				$("#billingAddress_country").val("");
+				$("#billingAddress_zipcode").val("");
+			}
+		});
+	});
+</script>
 </head>
 <body>
-	<%@ include file="navbar.jsp"%>
+	<%@ include file="navbar1.jsp"%>
 	<div class="container" style="margin-bottom: 19px">
 		<h1 class="well">Register Here !</h1>
 		<div class="col-lg-12 well">
@@ -68,18 +86,18 @@
 						<div class="form-group">
 							<form:label path="shippingAddress.address">Address</form:label>
 							<form:textarea type="text" placeholder="Enter Shipping Address.."
-								class="form-control" path="shippingAddress.address"></form:textarea>
+								class="form-control" path="shippingAddress.address" id="shippingAddress_address"></form:textarea>
 						</div>
 						<div class="row">
 							<div class="col-sm-6 form-group">
 								<form:label path="shippingAddress.city">City</form:label>
 								<form:input type="text" placeholder="Enter Current City.."
-									class="form-control" path="shippingAddress.city"></form:input>
+									class="form-control" path="shippingAddress.city" id="shippingAddress_city"></form:input>
 							</div>
 							<div class="col-sm-6 form-group">
 								<form:label path="shippingAddress.state">State</form:label>
 								<form:input type="text" placeholder="Enter your State.."
-									class="form-control" path="shippingAddress.state"></form:input>
+									class="form-control" path="shippingAddress.state" id="shippingAddress_state"></form:input>
 								<form:errors path="shippingAddress.state"></form:errors>
 							</div>
 						</div>
@@ -87,15 +105,17 @@
 							<div class="col-sm-6 form-group">
 								<form:label path="shippingAddress.country">Country</form:label>
 								<form:input type="text" placeholder="Enter your country.."
-									class="form-control" path="shippingAddress.country"></form:input>
+									class="form-control" path="shippingAddress.country" id="shippingAddress_country"></form:input>
 							</div>
 							<div class="col-sm-6 form-group">
 								<form:label path="shippingAddress.zipcode">Zipcode</form:label>
 								<form:input type="text" placeholder="Enter zipcode.."
-									class="form-control" path="shippingAddress.zipcode"></form:input>
+									class="form-control" path="shippingAddress.zipcode" id="shippingAddress_zipcode"></form:input>
 								<form:errors path="shippingAddress.zipcode"></form:errors>
 							</div>
 						</div>
+						<hr>
+						<input type="checkbox" value="yes" id="sameAddress">Same as Shipping Address
 						<hr>
 						<div>
 							<center>Billing Address</center>
@@ -103,18 +123,18 @@
 						<div class="form-group">
 							<form:label path="billingAddress.address">Address</form:label>
 							<form:textarea type="text" placeholder="Enter Billing Address.."
-								class="form-control" path="billingAddress.address"></form:textarea>
+								class="form-control" path="billingAddress.address" id="billingAddress_address"></form:textarea>
 						</div>
 						<div class="row">
 							<div class="col-sm-6 form-group">
 								<form:label path="billingAddress.city">City</form:label>
 								<form:input type="text" placeholder="Enter your City.."
-									class="form-control" path="billingAddress.city"></form:input>
+									class="form-control" path="billingAddress.city" id="billingAddress_city"></form:input>
 							</div>
 							<div class="col-sm-6 form-group">
 								<form:label path="billingAddress.state">State</form:label>
 								<form:input type="text" placeholder="Enter your state.."
-									class="form-control" path="billingAddress.state"></form:input>
+									class="form-control" path="billingAddress.state" id="billingAddress_state"></form:input>
 								<form:errors path="billingAddress.state"></form:errors>
 							</div>
 						</div>
@@ -122,12 +142,12 @@
 							<div class="col-sm-6 form-group">
 								<form:label path="billingAddress.country">Country</form:label>
 								<form:input type="text" placeholder="Enter your City.."
-									class="form-control" path="billingAddress.country"></form:input>
+									class="form-control" path="billingAddress.country" id="billingAddress_country"></form:input>
 							</div>
 							<div class="col-sm-6 form-group">
 								<form:label path="billingAddress.zipcode">Zipcode</form:label>
 								<form:input type="text" placeholder="Enter Zipcode.."
-									class="form-control" path="billingAddress.zipcode"></form:input>
+									class="form-control" path="billingAddress.zipcode" id="billingAddress_zipcode"></form:input>
 								<form:errors path="billingAddress.zipcode"></form:errors>
 							</div>
 						</div>

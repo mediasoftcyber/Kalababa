@@ -1,11 +1,15 @@
 package com.kalababa.product.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kalababa.product.entity.ProductImageEntity;
 
-public class CameraMaster {
+
+public class CameraMaster implements Serializable{
 
 	private Integer prodId;
 	private String custId;
@@ -39,6 +43,15 @@ public class CameraMaster {
 	private String createdBy;
 	private String updatedBy;
 	private MultipartFile[] images;
+	private List<ProductImageEntity> prodImgs;
+
+	public List<ProductImageEntity> getProdImgs() {
+		return prodImgs;
+	}
+
+	public void setProdImgs(List<ProductImageEntity> prodImgs) {
+		this.prodImgs = prodImgs;
+	}
 
 	public Integer getProdId() {
 		return prodId;

@@ -27,7 +27,7 @@ public class CartItem implements Serializable {
 	@GeneratedValue(generator = "id")
 	private Integer cartItemId;
 
-	private int quality;
+	private int quantity;
 
 	private double price;
 

@@ -1,8 +1,11 @@
 package com.kalababa.product.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kalababa.model.Product;
 import com.kalababa.product.entity.CameraMasterEntity;
 import com.kalababa.product.entity.CategoryMasterEntity;
 import com.kalababa.product.entity.LaptopMasterEntity;
+import com.kalababa.product.entity.ProductImageEntity;
 import com.kalababa.product.entity.ProductMasterEntity;
 import com.kalababa.product.entity.TVMasterEntity;
 import com.kalababa.product.model.CameraMaster;
@@ -25,8 +31,10 @@ import com.kalababa.product.model.TVMaster;
 import com.kalababa.product.repository.CameraMasterRepository;
 import com.kalababa.product.repository.CategoryRepository;
 import com.kalababa.product.repository.LaptopMasterRepository;
+import com.kalababa.product.repository.ProductImageRepository;
 import com.kalababa.product.repository.ProductMasterRepository;
 import com.kalababa.product.repository.TVMasterRepository;
+import com.kalababa.repository.ProductRepository;
 
 @Service("prodServiceImpl")
 public class ProductServiceImpl implements ProductService {
@@ -34,19 +42,25 @@ public class ProductServiceImpl implements ProductService {
 	private static Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 	@Autowired(required = true)
-	private ProductMasterRepository prodRepo;
+	private ProductMasterRepository prodMasterRepo;
 
 	@Autowired(required = true)
 	private LaptopMasterRepository lapRepo;
-	
+
 	@Autowired(required = true)
 	private TVMasterRepository tvRepo;
-	
+
 	@Autowired(required = true)
 	private CameraMasterRepository camRepo;
 
 	@Autowired
 	private CategoryRepository categoryRepo;
+
+	@Autowired
+	private ProductImageRepository prodImgRepo;
+
+	@Autowired
+	private ProductRepository prodRepo;
 
 	/**
 	 * This method is for adding product
@@ -56,8 +70,13 @@ public class ProductServiceImpl implements ProductService {
 	 * @throws Exception
 	 */
 	@Override
-	public ProductMaster addProduct(ProductMaster prodModel) throws Exception {
+	public ProductMaster addProduct(ProductMaster prodModel, ServletContext sc) throws Exception {
 		logger.debug("productService::addProduct() method started");
+
+		int imgId = 0;
+		String path = null;
+		String realPath = null;
+
 		// getting user name
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentPrincipalName = authentication.getName();
@@ -77,10 +96,38 @@ public class ProductServiceImpl implements ProductService {
 		BeanUtils.copyProperties(prodModel, entity);
 
 		// Call Repository method
-		entity = prodRepo.save(entity);
-
+		entity = prodMasterRepo.save(entity);
 		BeanUtils.copyProperties(entity, prodModel);
 
+		// saving images and storing image data into ProductImage table
+		try {
+			MultipartFile[] files = prodModel.getImages();
+			for (MultipartFile file : files) {
+				String fileName = "prod_" + prodModel.getProdId() + "_img_" + (++imgId) + ".jpg";
+				path = "WEB-INF/classes/static/resource/images/products/" + fileName;
+				realPath = sc.getRealPath(path);
+				file.transferTo(new File(realPath));
+				logger.info("Product Images transfered Successfully to " + realPath);
+				ProductImageEntity prodImgEntity = new ProductImageEntity();
+				prodImgEntity.setImageName(fileName);
+				prodImgEntity.setImageUrl("resource/images/products/" + fileName);
+				prodImgEntity.setImageRealPath(realPath);
+				prodImgEntity.setProdId(prodModel.getProdId());
+				prodImgEntity.setCatId(prodModel.getCategoryId());
+				prodImgRepo.save(prodImgEntity);
+			}
+		} catch (Exception e) {
+			logger.info("Product Images transfer failed", e);
+			throw e;
+		}
+		for (int i = 0; i < entity.getQuantity(); i++) {
+			Product product = new Product();
+			product.setProdId(entity.getProdId());
+			product.setProdTitle(entity.getTitle());
+			product.setCategoryId(entity.getCategoryId());
+			
+			prodRepo.save(product);
+		}
 		logger.info("Product added");
 		logger.debug("productService::addProduct() completed");
 		return prodModel;
@@ -94,8 +141,12 @@ public class ProductServiceImpl implements ProductService {
 	 * @throws Exception
 	 */
 	@Override
-	public LaptopMaster addLaptop(LaptopMaster laptopModel) throws Exception {
+	public LaptopMaster addLaptop(LaptopMaster laptopModel, ServletContext sc) throws Exception {
 		logger.debug("productService::addLaptop() method started");
+
+		int imgId = 0;
+		String path = null;
+		String realPath = null;
 
 		// getting user name
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -115,14 +166,42 @@ public class ProductServiceImpl implements ProductService {
 
 		// Call Repository method
 		entity = lapRepo.save(entity);
-
 		BeanUtils.copyProperties(entity, laptopModel);
 
+		// saving images and storing image data into ProductImage table
+		try {
+			MultipartFile[] files = laptopModel.getImages();
+			for (MultipartFile file : files) {
+				String fileName = "laptop_" + laptopModel.getProdId() + "_img_" + (++imgId) + ".jpg";
+				path = "WEB-INF/classes/static/resource/images/products/" + fileName;
+				realPath = sc.getRealPath(path);
+				file.transferTo(new File(realPath));
+				logger.info("Product Images transfered Successfully to " + realPath);
+				ProductImageEntity prodImgEntity = new ProductImageEntity();
+				prodImgEntity.setImageName(fileName);
+				prodImgEntity.setImageUrl("resource/images/products/" + fileName);
+				prodImgEntity.setImageRealPath(realPath);
+				prodImgEntity.setProdId(laptopModel.getProdId());
+				prodImgEntity.setCatId(laptopModel.getCategoryId());
+				prodImgRepo.save(prodImgEntity);
+			}
+		} catch (Exception e) {
+			logger.info("Product Images transfer failed", e);
+			throw e;
+		}
+		for (int i = 0; i < entity.getQuantity(); i++) {
+			Product product = new Product();
+			product.setProdId(entity.getProdId());
+			product.setProdTitle(entity.getTitle());
+			product.setCategoryId(entity.getCategoryId());
+			
+			prodRepo.save(product);
+		}
 		logger.info("Laptop added");
 		logger.debug("productService::addLaptop() completed");
 		return laptopModel;
 	}
-	
+
 	/**
 	 * This method is for adding tv
 	 * 
@@ -131,8 +210,12 @@ public class ProductServiceImpl implements ProductService {
 	 * @throws Exception
 	 */
 	@Override
-	public TVMaster addTV(TVMaster tvModel) throws Exception {
+	public TVMaster addTV(TVMaster tvModel, ServletContext sc) throws Exception {
 		logger.debug("productService::addTV() method started");
+
+		int imgId = 0;
+		String path = null;
+		String realPath = null;
 
 		// getting user name
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -152,14 +235,42 @@ public class ProductServiceImpl implements ProductService {
 
 		// Call Repository method
 		entity = tvRepo.save(entity);
-
 		BeanUtils.copyProperties(entity, tvModel);
 
+		// saving images and storing image data into ProductImage table
+		try {
+			MultipartFile[] files = tvModel.getImages();
+			for (MultipartFile file : files) {
+				String fileName = "tv_" + tvModel.getProdId() + "_img_" + (++imgId) + ".jpg";
+				path = "WEB-INF/classes/static/resource/images/products/" + fileName;
+				realPath = sc.getRealPath(path);
+				file.transferTo(new File(realPath));
+				logger.info("Product Images transfered Successfully to " + realPath);
+				ProductImageEntity prodImgEntity = new ProductImageEntity();
+				prodImgEntity.setImageName(fileName);
+				prodImgEntity.setImageUrl("resource/images/products/" + fileName);
+				prodImgEntity.setImageRealPath(realPath);
+				prodImgEntity.setProdId(tvModel.getProdId());
+				prodImgEntity.setCatId(tvModel.getCategoryId());
+				prodImgRepo.save(prodImgEntity);
+			}
+		} catch (Exception e) {
+			logger.info("Product Images transfer failed", e);
+			throw e;
+		}
+		for (int i = 0; i < entity.getQuantity(); i++) {
+			Product product = new Product();
+			product.setProdId(entity.getProdId());
+			product.setProdTitle(entity.getTitle());
+			product.setCategoryId(entity.getCategoryId());
+			
+			prodRepo.save(product);
+		}
 		logger.info("TV added");
 		logger.debug("productService::addTV() completed");
 		return tvModel;
 	}
-	
+
 	/**
 	 * This method is for adding tv
 	 * 
@@ -168,8 +279,12 @@ public class ProductServiceImpl implements ProductService {
 	 * @throws Exception
 	 */
 	@Override
-	public CameraMaster addCamera(CameraMaster cameraModel) throws Exception {
+	public CameraMaster addCamera(CameraMaster cameraModel, ServletContext sc) throws Exception {
 		logger.debug("productService::addCamera() method started");
+
+		int imgId = 0;
+		String path = null;
+		String realPath = null;
 
 		// getting user name
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -191,17 +306,92 @@ public class ProductServiceImpl implements ProductService {
 
 		BeanUtils.copyProperties(entity, cameraModel);
 
+		// saving images and storing image data into ProductImage table
+		try {
+			MultipartFile[] files = cameraModel.getImages();
+			for (MultipartFile file : files) {
+				String fileName = "cam_" + cameraModel.getProdId() + "_img_" + (++imgId) + ".jpg";
+				path = "WEB-INF/classes/static/resource/images/products/" + fileName;
+				realPath = sc.getRealPath(path);
+				file.transferTo(new File(realPath));
+				logger.info("Product Images transfered Successfully to " + realPath);
+				ProductImageEntity prodImgEntity = new ProductImageEntity();
+				prodImgEntity.setImageName(fileName);
+				prodImgEntity.setImageUrl("resource/images/products/" + fileName);
+				prodImgEntity.setImageRealPath(realPath);
+				prodImgEntity.setProdId(cameraModel.getProdId());
+				prodImgEntity.setCatId(cameraModel.getCategoryId());
+				prodImgRepo.save(prodImgEntity);
+			}
+		} catch (Exception e) {
+			logger.info("Product Images transfer failed", e);
+			throw e;
+		}
+		for (int i = 0; i < entity.getQuantity(); i++) {
+			Product product = new Product();
+			product.setProdId(entity.getProdId());
+			product.setProdTitle(entity.getTitle());
+			product.setCategoryId(entity.getCategoryId());
+			
+			prodRepo.save(product);
+		}
 		logger.info("Camera added");
 		logger.debug("productService::addCamera() completed");
 		return cameraModel;
 	}
 
+	/**
+	 * This method is for finding laptop by prodId
+	 */
 	@Override
-	public LaptopMaster findLaptopByProdId(String prodId) throws Exception {
-		LaptopMaster lapModel = new LaptopMaster();
-		LaptopMasterEntity entity = lapRepo.getOne(prodId);
-		BeanUtils.copyProperties(entity, lapModel);
-		return lapModel;
+	public LaptopMaster findLaptopByProdId(Integer prodId) throws Exception {
+		LaptopMaster laptopMaster = new LaptopMaster();
+		LaptopMasterEntity entity = lapRepo.findById(prodId).get();
+		BeanUtils.copyProperties(entity, laptopMaster);
+		List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(laptopMaster.getProdId(), laptopMaster.getCategoryId());
+		laptopMaster.setProdImgs(prodImgs);
+		return laptopMaster;
+	}
+
+	/**
+	 * This method is for finding tv by prodId
+	 */
+	@Override
+	public TVMaster findTVByProdId(Integer prodId) throws Exception {
+		TVMaster tvMaster = new TVMaster();
+		TVMasterEntity entity = tvRepo.findById(prodId).get();
+		BeanUtils.copyProperties(entity, tvMaster);
+		List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(tvMaster.getProdId(), tvMaster.getCategoryId());
+		tvMaster.setProdImgs(prodImgs);
+		return tvMaster;
+	}
+
+	/**
+	 * This method is for finding camera by prodId
+	 */
+	@Override
+	public CameraMaster findCamByProdId(Integer prodId) throws Exception {
+		CameraMaster camMaster = new CameraMaster();
+		TVMasterEntity entity = tvRepo.findById(prodId).get();
+		BeanUtils.copyProperties(entity, camMaster);
+		List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(camMaster.getProdId(), camMaster.getCategoryId());
+		camMaster.setProdImgs(prodImgs);
+		return camMaster;
+	}
+
+	/**
+	 * This method is for finding product by prodId
+	 */
+	@Override
+	public ProductMaster findByProdId(Integer prodId) throws Exception {
+		logger.debug("CustomerService::findByProdId() method started");
+		ProductMasterEntity entity = prodMasterRepo.getOne(prodId);
+		ProductMaster model = new ProductMaster();
+		BeanUtils.copyProperties(entity, model);
+		List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(model.getProdId(),model.getCategoryId());
+		model.setProdImgs(prodImgs);
+		logger.debug("CustomerService::findAllProdsByCustId() method ended");
+		return model;
 	}
 
 	/**
@@ -210,7 +400,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductMaster> findAllProdsByCustId(String custId) {
 		logger.debug("CustomerService::findAllProdsByCustId() method started");
-		List<ProductMasterEntity> listEntity = prodRepo.findByCustId(custId);
+		List<ProductMasterEntity> listEntity = prodMasterRepo.findByCustId(custId);
 		List<ProductMaster> prodList = new ArrayList<>();
 		listEntity.forEach(entity -> {
 			ProductMaster prodModel = new ProductMaster();
@@ -219,19 +409,6 @@ public class ProductServiceImpl implements ProductService {
 		});
 		logger.debug("CustomerService::findAllProdsByCustId() method ended");
 		return prodList;
-	}
-
-	/**
-	 * This method is for finding selling product by prodId
-	 */
-	@Override
-	public ProductMaster findByProdId(String prodId) {
-		logger.debug("CustomerService::findByProdId() method started");
-		ProductMasterEntity entity = prodRepo.getOne(prodId);
-		ProductMaster model = new ProductMaster();
-		BeanUtils.copyProperties(entity, model);
-		logger.debug("CustomerService::findAllProdsByCustId() method ended");
-		return model;
 	}
 
 	/**
@@ -258,7 +435,7 @@ public class ProductServiceImpl implements ProductService {
 	public boolean deleteProductByPordId(String prodId) {
 		logger.debug("CustomerService::deleteProductByPordId() method started");
 		try {
-			prodRepo.deleteById(prodId);
+			prodMasterRepo.deleteById(prodId);
 			logger.info("Product Deleted Successully");
 			lapRepo.deleteById(prodId);
 			logger.info("Laptop Deleted Successully");
@@ -315,16 +492,88 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
+	/**
+	 * This method is for finding all Laptops
+	 */
 	@Override
 	public List<LaptopMaster> findAllLaptops() {
 		List<LaptopMasterEntity> listEntity = lapRepo.findAll();
 		List<LaptopMaster> listLaptop = new ArrayList<>();
-		listEntity.forEach(entity->{
+		listEntity.forEach(entity -> {
 			LaptopMaster laptopMaster = new LaptopMaster();
 			BeanUtils.copyProperties(entity, laptopMaster);
+			List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(laptopMaster.getProdId(),laptopMaster.getCategoryId());
+			laptopMaster.setProdImgs(prodImgs);
 			listLaptop.add(laptopMaster);
 		});
 		return listLaptop;
+	}
+	
+	/**
+	 * This method is for finding all TVs
+	 */
+	@Override
+	public List<TVMaster> findAllTV() {
+		List<TVMasterEntity> listEntity = tvRepo.findAll();
+		List<TVMaster> listTV = new ArrayList<>();
+		listEntity.forEach(entity -> {
+			TVMaster tvMaster = new TVMaster();
+			BeanUtils.copyProperties(entity, tvMaster);
+			List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(tvMaster.getProdId(), tvMaster.getCategoryId());
+			tvMaster.setProdImgs(prodImgs);
+			listTV.add(tvMaster);
+		});
+		return listTV;
+	}
+	
+	/**
+	 * This method is for finding all Cams
+	 */
+	@Override
+	public List<CameraMaster> findAllCamera() {
+		List<CameraMasterEntity> listEntity = camRepo.findAll();
+		List<CameraMaster> listCam = new ArrayList<>();
+		listEntity.forEach(entity -> {
+			CameraMaster camMaster = new CameraMaster();
+			BeanUtils.copyProperties(entity, camMaster);
+			List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(camMaster.getProdId(), camMaster.getCategoryId());
+			camMaster.setProdImgs(prodImgs);
+			listCam.add(camMaster);
+		});
+		return listCam;
+	}
+	
+	/**
+	 * This method is for finding all Miscellaneous Products
+	 */
+	@Override
+	public List<ProductMaster> findAllProducts() {
+		List<ProductMasterEntity> listEntity = prodMasterRepo.findAll();
+		List<ProductMaster> listProd = new ArrayList<>();
+		listEntity.forEach(entity -> {
+			ProductMaster prodMaster = new ProductMaster();
+			BeanUtils.copyProperties(entity, prodMaster);
+			List<ProductImageEntity> prodImgs = prodImgRepo.findAllByProdIdAndCatId(prodMaster.getProdId(), prodMaster.getCategoryId());
+			prodMaster.setProdImgs(prodImgs);
+			listProd.add(prodMaster);
+		});
+		return listProd;
+	}
+	
+	/**
+	 * This method is for finding all items
+	 */
+	@Override
+	public List<Product> findAllItems() {
+		return prodRepo.findAll();
+	}
+	
+	@Override
+	public CategoryMaster findCategoryByCategoryId(Integer catId) {
+		CategoryMasterEntity entity = categoryRepo.findById(catId).get();
+		CategoryMaster model = new CategoryMaster();
+		BeanUtils.copyProperties(entity, model);
+		return model;
 	}
 
 }

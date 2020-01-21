@@ -7,31 +7,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kalababa.model.User;
-
-import co.kalababa.dao.UserDao;
+import com.kalababa.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	//@Autowired
-	private UserDao userDao;
+	@Autowired
+	private UserRepository userRepo;
 	
 	@Transactional
 	public List<User> getAllUsers() {
-	return userDao.getAllUsers();
+	return userRepo.findAll();
 	}
 
 	@Transactional
 	public void deleteUser(String userId) {
-		userDao.deleteUser(userId);
+		userRepo.deleteById(userId);
 	}
 	@Transactional 
 	public void addUser(User user){
-		userDao.addUser(user);
+		userRepo.save(user);
 	}
 	
 	public User getUserById(String userId) {
-		return userDao.getUserById(userId);
+		return userRepo.findById(userId).get();
 	}
 
 	

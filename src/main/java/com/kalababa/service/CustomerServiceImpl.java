@@ -39,6 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		Cart cart = new Cart();
 		customer.getUsers().setPassword(encoder.encode(customer.getUsers().getPassword()));
+		customer.getUsers().setEnabled(true);
 		customer.setCart(cart);
 		cart.setCustomer(customer);
 		Authorities authorities = new Authorities();

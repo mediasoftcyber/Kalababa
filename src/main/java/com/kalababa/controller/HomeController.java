@@ -2,6 +2,7 @@ package com.kalababa.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kalababa.model.Product;
 import com.kalababa.model.Queries;
+import com.kalababa.product.model.CameraMaster;
 import com.kalababa.product.model.CategoryMaster;
 import com.kalababa.product.model.LaptopMaster;
+import com.kalababa.product.model.ProductMaster;
+import com.kalababa.product.model.TVMaster;
 import com.kalababa.product.service.ProductService;
 import com.kalababa.service.QueriesService;
 
@@ -27,18 +32,34 @@ public class HomeController {
 	@Autowired
 	private ProductService prodService;
 	
-	@RequestMapping({ "/index", "/index1" })
-	public String sayIndex(Model model) {
+	@RequestMapping({ "/index", "/index1", "/"})
+	public String sayIndex(Model model, HttpServletRequest req) {
+		initHomePage(model);
+		/*String uri = req.getRequestURI();
+		if(uri.contains("index1"))
+			return "index1";*/
+		return "home";
+	}
+	
+	/*@RequestMapping({ "/*" })
+	public String sayHomePage(Model model) {
+		initHomePage(model);
+		return "index";
+	}*/
+
+	private void initHomePage(Model model) {
 		List<CategoryMaster> categoryList = prodService.findAllCategories();
 		model.addAttribute("categoryList", categoryList);
 		List<LaptopMaster> listLaptop = prodService.findAllLaptops();
 		model.addAttribute("laptopList", listLaptop);
-		return "index1";
-	}
-
-	@RequestMapping("/hello")
-	public ModelAndView sayHello() {
-		return new ModelAndView("hello", "hello", "Hello Mr.Prabhakar");
+		List<TVMaster> listTV = prodService.findAllTV();
+		model.addAttribute("tvList", listTV);
+		List<CameraMaster> listCam = prodService.findAllCamera();
+		model.addAttribute("camList", listCam);
+		List<ProductMaster> listProd = prodService.findAllProducts();
+		model.addAttribute("prodList", listProd);
+		List<Product> items = prodService.findAllItems();
+		model.addAttribute("items", items);
 	}
 
 	@RequestMapping("/login")

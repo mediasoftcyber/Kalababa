@@ -13,7 +13,7 @@ import com.kalababa.repository.CartItemRepository;
 public class CartItemServiceImpl implements CartItemService {
 
 	
-	//@Autowired
+	@Autowired
 	private CartItemRepository cartItemRepo;
 
 	public void addCartItem(CartItem cartItem) {

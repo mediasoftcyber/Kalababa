@@ -101,7 +101,7 @@ public class ProductController {
 		Product product = new Product();
 		// New Arrivals
 		// set the category as 1 for the Book book
-		product.setProductCategory("Laptop");
+		//product.setProductCategory("Laptop");
 		model.addAttribute("productFormObj", product);
 		return "addProduct";
 

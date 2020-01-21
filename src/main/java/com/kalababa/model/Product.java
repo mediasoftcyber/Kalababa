@@ -6,12 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -25,34 +25,16 @@ public class Product implements Serializable {
 
 	@Id
 	@Column(name = "Id")
-	@GenericGenerator(name="id" , strategy="increment")
-	@GeneratedValue(generator = "id")
-	private Integer productId;
+	@SequenceGenerator(name = "mySeqGen", sequenceName = "mySeq", initialValue = 500001)
+	@GeneratedValue(generator = "mySeqGen")
+	private Integer itemId;
 	
-	@Column(name="category")
-	private String productCategory;
+	@Column(name = "PROD_ID")
+	private Integer prodId;
 	
-	@Column(name = "description")
-	private String productDescription;
+	@Column(name="category_Id")
+	private Integer categoryId;
 	
-	@Column(name = "manufacturer")
-	private String productManufacturer;
-	
-	@NotNull(message = "Product Name is mandatory")
-	@Column(name = "name")
-	private String productName;
-	
-	@NotNull(message="Please provide some price")
-	@Min(value = 100, message = "Minimum value should be greater than 100")
-	@Column(name = "price")
-	private double productPrice;
-	
-	@Column(name = "unit")
-	private String unitStock;
-
-	@Transient
-	private MultipartFile productImage;
-
-	
-
+	@Column(name = "PROD_TITLE")
+	private String prodTitle;
 }

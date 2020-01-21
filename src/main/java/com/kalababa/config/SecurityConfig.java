@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
@@ -40,10 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		 .antMatchers("/index/**")
 		  .access("permitAll")
-		 .antMatchers("/index1/**")
-		  .access("permitAll")
+				/*.antMatchers("/index1/**")
+				 .access("permitAll")*/
 		 .antMatchers("/cart/**")
-		  .access("permitAll")
+		  .access("hasRole('ROLE_USER')")
 		 .antMatchers("/add*/**")
 		  .access("hasRole('ROLE_ADMIN')")
 		 .antMatchers("/get*/**")
@@ -52,8 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		  .access("hasRole('ROLE_ADMIN')")
 		 .and()
 		  .formLogin().loginPage("/login").loginProcessingUrl("/login")
-		  	.defaultSuccessUrl("/index1")
-		 .and().logout().logoutSuccessUrl("/login?logout=y").and().csrf().disable();
+		  	.defaultSuccessUrl("/index")
+		 .and().logout().logoutSuccessUrl("/index?logout=y").and().csrf().disable();
 	
 	}
 	
