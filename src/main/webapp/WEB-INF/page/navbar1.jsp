@@ -26,7 +26,6 @@
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<!-- Google font -->
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
 		<!-- Bootstrap -->
 		<link type="text/css" rel="stylesheet" href="<c:url value="/resource/bootstrap/css/bootstrap.min.css"/>""/>
 
